@@ -1,0 +1,128 @@
+[
+  {
+    "id": "bert-base-uncased",
+    "family": "BERT",
+    "task": "text-classification",
+    "input_type": ["text"],
+    "library": "transformers",
+    "domain": ["general", "NLP"],
+    "description": "Bidirectional Transformer model for general-purpose NLP tasks such as sentiment analysis and topic classification.",
+    "best_for": [
+      "sentiment analysis on short text",
+      "classifying customer support emails",
+      "intent detection in chatbots"
+    ],
+    "limitations": [
+      "not ideal for very long documents (>512 tokens)",
+      "not designed for text generation tasks"
+    ],
+    "infra_requirements": "GPU recommended for training. CPU inference is fine for low/medium load.",
+    "typical_users": "Teams building supervised classifiers on short or medium-length text.",
+    "link": "https://huggingface.co/bert-base-uncased"
+  },
+  {
+    "id": "distilbert-base-uncased",
+    "family": "DistilBERT",
+    "task": "text-classification",
+    "input_type": ["text"],
+    "library": "transformers",
+    "domain": ["general", "NLP"],
+    "description": "Smaller, faster version of BERT with good performance for many text classification tasks.",
+    "best_for": [
+      "real-time sentiment analysis",
+      "classification with latency constraints",
+      "lightweight NLP on limited hardware"
+    ],
+    "limitations": [
+      "slightly lower accuracy than full BERT models",
+      "still not suitable for very long documents"
+    ],
+    "infra_requirements": "Can run on CPU for small workloads. GPU recommended for training.",
+    "typical_users": "Teams needing a balance between speed and accuracy for text classification.",
+    "link": "https://huggingface.co/distilbert-base-uncased"
+  },
+  {
+    "id": "t5-small",
+    "family": "T5",
+    "task": "text-to-text-generation",
+    "input_type": ["text"],
+    "library": "transformers",
+    "domain": ["NLP"],
+    "description": "Encoder-decoder model that treats every NLP problem as a text-to-text task.",
+    "best_for": [
+      "text summarization",
+      "machine translation experiments",
+      "question answering with fine-tuning"
+    ],
+    "limitations": [
+      "small variant may underperform on complex tasks",
+      "slower than encoder-only models for pure classification"
+    ],
+    "infra_requirements": "GPU recommended for training and heavier inference.",
+    "typical_users": "Teams needing flexible sequence-to-sequence text generation.",
+    "link": "https://huggingface.co/t5-small"
+  },
+  {
+    "id": "yolov8",
+    "family": "YOLO",
+    "task": "object-detection",
+    "input_type": ["image"],
+    "library": "ultralytics",
+    "domain": ["computer vision"],
+    "description": "Real-time object detection model that can detect multiple object classes in images and videos.",
+    "best_for": [
+      "real-time video surveillance",
+      "retail shelf monitoring",
+      "manufacturing defect detection via images"
+    ],
+    "limitations": [
+      "requires GPU for real-time inference",
+      "not suitable for OCR or document layout understanding"
+    ],
+    "infra_requirements": "GPU strongly recommended, especially for real-time use cases.",
+    "typical_users": "Teams doing real-time detection in CV applications.",
+    "link": "https://github.com/ultralytics/ultralytics"
+  },
+  {
+    "id": "xgboost",
+    "family": "XGBoost",
+    "task": "tabular-regression-classification",
+    "input_type": ["tabular"],
+    "library": "xgboost",
+    "domain": ["tabular", "structured-data"],
+    "description": "Gradient boosting library that is a strong baseline for many tabular data problems.",
+    "best_for": [
+      "credit risk scoring",
+      "churn prediction",
+      "sales forecasting with structured features"
+    ],
+    "limitations": [
+      "not designed for raw text, images, or audio",
+      "feature engineering is often required"
+    ],
+    "infra_requirements": "Runs well on CPU for most moderate-sized datasets.",
+    "typical_users": "Data science teams working with structured business data.",
+    "link": "https://xgboost.readthedocs.io"
+  },
+  {
+    "id": "prophet",
+    "family": "Prophet",
+    "task": "time-series-forecasting",
+    "input_type": ["time-series"],
+    "library": "prophet",
+    "domain": ["time-series"],
+    "description": "Additive model for time-series forecasting designed for business data with seasonality and holidays.",
+    "best_for": [
+      "business KPI forecasting",
+      "daily or weekly time series with strong seasonality",
+      "quick baseline forecasts with interpretable components"
+    ],
+    "limitations": [
+      "not ideal for high-frequency or very noisy time series",
+      "limited support for complex multivariate relationships"
+    ],
+    "infra_requirements": "CPU is sufficient for most use cases.",
+    "typical_users": "Business analysts and data scientists forecasting KPIs.",
+    "link": "https://facebook.github.io/prophet/"
+  }
+]
