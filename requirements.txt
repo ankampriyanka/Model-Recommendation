@@ -5,4 +5,4 @@ huggingface-hub==0.19.0
 numpy==1.24.3
 pandas==2.0.2
 plotly==5.15.0
-
+# If you include any library needing GPU → build FAILS.
