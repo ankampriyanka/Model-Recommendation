@@ -1,16 +1,16 @@
-name: Build Catalog + Push to HuggingFace
+name: Auto Update Model Catalog + Deploy to HuggingFace
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 3 * * 1"   # Weekly refresh
+    - cron: "0 3 * * 1"
 
 jobs:
-  build-and-deploy:
+  update-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout Repo
         uses: actions/checkout@v3
 
       - name: Setup Python
@@ -18,45 +18,38 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          pip install huggingface_hub sentence-transformers faiss-cpu numpy pandas
+          pip install huggingface_hub faiss-cpu sentence-transformers numpy pandas
 
-      # 1️⃣ Build auto catalog
-      - name: Build auto catalog
-        run: |
-          python build/auto_catalog.py
+      - name: Auto Build Catalog
+        run: python build/auto_catalog.py
 
-      # 2️⃣ Merge catalogs → model_db.json
-      - name: Merge FinOps and auto catalog
-        run: |
-          python build/merge_catalogs.py
+      - name: Merge Catalogs
+        run: python build/merge_catalogs.py
 
-      # 3️⃣ Build FAISS index + model_metadata.json
-      - name: Build FAISS index
-        run: |
-          python build/build_index.py
+      - name: Build FAISS Index
+        run: python build/build_index.py
 
-      # 4️⃣ Commit updated files to GitHub
-      - name: Commit updated files
+      - name: Commit Updated Files
         run: |
-          git config --local user.name "github-actions"
-          git config --local user.email "actions@github.com"
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
           git add model_db.json model_index.faiss model_metadata.json
-          git commit -m "Auto update catalog and FAISS index" || echo "No changes to commit"
+          git commit -m "Auto update catalog" || echo "No changes"
           git push
 
-      # 5️⃣ Push final files to HuggingFace Space
-      - name: Push to HuggingFace
+      - name: Push to HuggingFace Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           HF_SPACE_REPO: ${{ secrets.HF_SPACE_REPO }}
         run: |
-          git clone https://HF:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE_REPO} space_repo
-          cp model_db.json space_repo/
-          cp model_index.faiss space_repo/
-          cp model_metadata.json space_repo/
-          cd space_repo
+          git clone https://HF:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE_REPO} hf_space_repo
+          cp model_db.json hf_space_repo/
+          cp model_index.faiss hf_space_repo/
+          cp model_metadata.json hf_space_repo/
+          cd hf_space_repo
           git add .
-          git commit -m "Auto deploy updated catalog and index" || echo "No changes"
+          git commit -m "Auto deploy updated catalog" || echo "No changes"
           git push
+
