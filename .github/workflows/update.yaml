@@ -41,7 +41,7 @@ jobs:
 
       - name: Push to HuggingFace Space
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.MR_HF_TOKEN }}
           HF_SPACE_REPO: ${{ secrets.HF_SPACE_REPO }}
         run: |
           git clone https://HF:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE_REPO} hf_space_repo
