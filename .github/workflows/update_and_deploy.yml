@@ -1,0 +1,63 @@
+name: Update Model Catalog + Deploy to HuggingFace
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"   # Run weekly (Monday 3AM)
+  workflow_dispatch:       # Allow manual run
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies
+        run: |
+          pip install huggingface_hub sentence-transformers faiss-cpu numpy pandas
+        
+      - name: Auto-generate HF metadata catalog
+        run: |
+          python build/auto_catalog.py
+
+      - name: Merge auto metadata with FinOps overrides
+        run: |
+          python build/merge_catalogs.py
+
+      - name: Rebuild FAISS index
+        run: |
+          python build/build_index.py
+
+      - name: Commit updated catalog + index to GitHub
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add model_db.json model_index.faiss model_metadata.json model_catalog_auto.json
+          git commit -m "Auto-refresh: Updated catalog and FAISS index" || echo "No changes to commit"
+
+      - name: Push changes to GitHub
+        uses: ad-m/github-push-action@v0.8.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy updated files to HuggingFace Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE_REPO: ${{ secrets.HF_SPACE_REPO }}
+        run: |
+          git clone https://HF:$HF_TOKEN@${HF_SPACE_REPO#https://} hf_space_repo
+
+          cp model_db.json hf_space_repo/
+          cp model_index.faiss hf_space_repo/
+          cp model_metadata.json hf_space_repo/
+
+          cd hf_space_repo
+          git add .
+          git commit -m "Auto deploy updated catalog from GitHub" || echo "No changes to commit"
+          git push
