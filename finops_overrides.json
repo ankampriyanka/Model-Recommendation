@@ -1,0 +1,18 @@
+{
+  "bert-base-uncased": {
+    "cost_per_1k_inferences_usd": 0.002,
+    "latency_ms": 35,
+    "memory_mb": 420,
+    "accuracy_score": 0.92,
+    "roi_score": 8.4,
+    "gpu_required": false
+  },
+  "distilbert-base-uncased": {
+    "cost_per_1k_inferences_usd": 0.0012,
+    "latency_ms": 18,
+    "memory_mb": 250,
+    "accuracy_score": 0.89,
+    "roi_score": 9.1,
+    "gpu_required": false
+  }
+}
