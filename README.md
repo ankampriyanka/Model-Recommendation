@@ -17,10 +17,10 @@ GitHub Actions pushes:
 → Space automatically updates app
 
 ### Folder Structure:
-/repo
-  app.py
-  build/
-     auto_catalog.py
+/repo\n
+  app.py\n
+  build/\n
+     auto_catalog.py\n
      merge_catalogs.py
      build_index.py
   finops_overrides.json
