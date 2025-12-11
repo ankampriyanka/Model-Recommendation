@@ -27,7 +27,7 @@
     "task": "text-to-image",
     "library": "diffusers",
     "downloads": 245041,
-    "likes": 2540,
+    "likes": 2541,
     "tags": [
       "diffusers",
       "safetensors",
@@ -526,7 +526,7 @@
     "task": "image-text-to-text",
     "library": "transformers",
     "downloads": 4544,
-    "likes": 80,
+    "likes": 81,
     "tags": [
       "transformers",
       "safetensors",
