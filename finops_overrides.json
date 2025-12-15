@@ -1,18 +1,20 @@
 {
-  "bert-base-uncased": {
-    "cost_per_1k_inferences_usd": 0.002,
-    "latency_ms": 35,
-    "memory_mb": 420,
-    "accuracy_score": 0.92,
-    "roi_score": 8.4,
-    "gpu_required": false
-  },
-  "distilbert-base-uncased": {
-    "cost_per_1k_inferences_usd": 0.0012,
-    "latency_ms": 18,
-    "memory_mb": 250,
-    "accuracy_score": 0.89,
-    "roi_score": 9.1,
-    "gpu_required": false
+  "rules": {
+    "text-generation": {
+      "small": {
+        "cost_per_1k_inferences_usd": 0.002,
+        "latency_ms": 30,
+        "memory_mb": 400,
+        "accuracy_score": 0.90,
+        "roi_score": 8.5
+      },
+      "large": {
+        "cost_per_1k_inferences_usd": 0.02,
+        "latency_ms": 120,
+        "memory_mb": 1800,
+        "accuracy_score": 0.94,
+        "roi_score": 6.2
+      }
+    }
   }
 }
